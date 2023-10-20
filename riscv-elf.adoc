@@ -468,7 +468,13 @@ Description:: Additional information about the relocation
                                             <| S - P
 .2+| 65      .2+| TLSDESC_CALL      .2+| Static  |                   .2+| Annotate call to TLS descriptor resolver function, `%tlsdesc_call(address of %tlsdesc_hi)`, for relaxation purposes only
                                             <|
-.2+| 66-191  .2+| *Reserved*                          .2+| -       |                   .2+| Reserved for future standard use
+ .2+| 66      .2+| IE_ADD     .2+| Static  |                   .2+| TLS IE thread pointer usage, `%ie_add(symbol)`
+                                            <|
+ .2+| 67      .2+| IE_stub     .2+| Static  |                   .2+| TLS IE stub
+                                            <|
+ .2+| 68      .2+| IE_stub     .2+| Static  |                   .2+| TLS IE stub
+                                            <|
+.2+| 69-191  .2+| *Reserved*                          .2+| -       |                   .2+| Reserved for future standard use
                                             <|
 .2+| 192-255 .2+| *Reserved*                          .2+| -       |                   .2+| Reserved for nonstandard ABI extensions
                                             <|
