@@ -468,11 +468,11 @@ Description:: Additional information about the relocation
                                             <| S - P
 .2+| 65      .2+| TLSDESC_CALL      .2+| Static  |                   .2+| Annotate call to TLS descriptor resolver function, `%tlsdesc_call(address of %tlsdesc_hi)`, for relaxation purposes only
                                             <|
- .2+| 66      .2+| IE_ADD     .2+| Static  |                   .2+| TLS IE thread pointer usage, `%ie_add(symbol)`
+ .2+| 66      .2+| TLS_IE_ADD     .2+| Static  |                   .2+| TLS IE thread pointer usage, `%ie_add(symbol)`
                                             <|
- .2+| 67      .2+| IE_stub     .2+| Static  |                   .2+| TLS IE stub
+ .2+| 67      .2+| TLS_IE_I     .2+| Static  |                   .2+| TLS IE thread pointer usage, `%ie_ls(symbol)` used to inidicate ie load
                                             <|
- .2+| 68      .2+| IE_stub     .2+| Static  |                   .2+| TLS IE stub
+ .2+| 68      .2+| TLS_IE_S     .2+| Static  |                   .2+| TLS IE thread pointer usage, `%ie_ls(symbol)` used to inidicate ie store
                                             <|
 .2+| 69-191  .2+| *Reserved*                          .2+| -       |                   .2+| Reserved for future standard use
                                             <|
@@ -883,11 +883,13 @@ Example assembler load and store of a thread local variable `i` using the
 [,asm]
 ----
     la.tls.ie a5,i
-    add  a5,a5,tp
-    lw   t0,0(a5)
+    add  a5,a5,tp,%ie_add(i)    # R_RISCV_TLS_IE_ADD (symbol)
+    lw   t0,0(a5),%ie_ls(i)     # R_RISCV_TLS_IE_I (symbol)
     addi t0,t0,1
-    sw   t0,0(a5)
+    sw   t0,0(a5),%ie_ls(i)     # R_RISCV_TLS_IE_S (symbol)
 ----
+The `%ie_add`,`ie_ls` assembler functions does not return a value and is used purely
+to associate the `R_RISCV_TLS_IE_ADD`,`R_RISCV_TLS_IE_I`,`R_RISCV_TLS_IE_S` relocation with the `add`,`lw`,`sw` instructions.
 
 The assembler pseudoinstruction:
 
